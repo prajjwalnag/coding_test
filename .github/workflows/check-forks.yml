@@ -1,0 +1,38 @@
+name: Check Forked Repos
+
+on:
+  # Run manually from the Actions tab
+  workflow_dispatch:
+  # Run weekly on Mondays at 9 AM UTC
+  schedule:
+    - cron: "0 9 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  check-forks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check forked repositories
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          FORK_REPORT_PATH: fork_report.json
+        run: python scripts/check_forks.py
+
+      - name: Upload fork report
+        uses: actions/upload-artifact@v4
+        with:
+          name: fork-report
+          path: fork_report.json
+          retention-days: 30
