@@ -31,28 +31,26 @@ The backend is completely decoupled into two specific skill tests: a Weather Asy
 
 ## Task 2: The Frontend (Next.js)
 
-The button to submit a task is in the UI, but it doesn't do anything yet.
+The frontend challenge evaluates advanced React patterns, client-side data parsing, and pixel-perfect Tailwind CSS cloning.
 
 1. Navigate to the `frontend/` directory.
 2. Install dependencies: `npm install`
 3. Run the development server: `npm run dev`
-4. Open the app at `http://localhost:3000`.
-5. **Your Job**: Open `frontend/src/components/TaskForm.tsx`. Complete the `handleSubmit` function to send a POST request with the `title` and `description` to your backend from Task 1.
+4. Open the app at `http://localhost:3000` to view the Task Hub.
+5. **Your Job**: 
+   - **Task 1 (/dashboard)**: Build a `react-dropzone` CSV uploading tool that visually renders `recharts` and a TanStack Data Table natively in-browser using PapaParse. Handle 'dirty' data elegantly.
+   - **Task 2 (/landing)**: Fix a brutally messy SaaS landing page layout using Tailwind CSS Grid/Flexbox, `framer-motion` animations, and a `next-themes` dark mode toggle.
 
-## Task 3: The E2E Test (Selenium)
+## Task 3: Headless Automation (Selenium Python)
 
-We need to ensure the entire flow works using an automated test.
+The automation challenge tests your ability to bypass authentications and execute advanced headless DOM scraping.
 
 1. Navigate to the `e2e-tests/` directory.
 2. Install dependencies: `pip install -r requirements.txt`
-3. Open `e2e-tests/test_task_flow.py`.
-4. Ensure both the frontend and backend servers are running locally.
-5. **Your Job**: Complete the `test_add_new_task` function. 
-   - Use Selenium to navigate to the Next.js app (`http://localhost:3000`).
-   - Fill out the form with a test title and description.
-   - Submit the form.
-   - Assert that the newly created task appears in the UI table below.
-6. Run your test: `pytest test_task_flow.py -v`
+3. Open `facebook_automation.py`.
+4. **Your Job**: 
+   - **Task 1**: Script a standard login to extract the `c_user` and `xs` authentication cookies.
+   - **Task 2**: Force a new headless session by injecting those cookies (bypassing the login screen directly), scroll the page dynamically to force lazy-loading, and scrape the first 3 text posts.
 
 ---
 

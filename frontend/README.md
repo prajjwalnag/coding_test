@@ -1,6 +1,6 @@
 # Frontend Challenge (Next.js)
 
-Welcome to the frontend portion of the assessment. This directory contains a Next.js (App Router) project styled entirely with Tailwind CSS v4.
+Welcome to the Next.js portion of the assessment. The candidate is meant to solve two distinct modern web-development challenges located in `src/app`.
 
 ## Setup Instructions
 
@@ -13,16 +13,38 @@ Welcome to the frontend portion of the assessment. This directory contains a Nex
    ```bash
    npm run dev
    ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to access the Hub.
 
-## Your Task
+---
 
-The UI successfully lists tasks fetched from the API, but the button inside the visual form currently does not work. 
+## Task 1: The CSV-to-Analytics Dashboard
 
-Open `src/components/TaskForm.tsx` and find the `handleSubmit` function.
+Located in `src/app/dashboard/page.tsx`.
+
+**Goal:** Build a dashboard that allows a user to upload a CSV file (e.g., lead data or ad spend) and visualizes the data using charts natively on the client.
 
 **Requirements:**
-1. Capture the local state (`title` and `description`).
-2. Dispatch a `fetch()` POST request to the backend server running at `http://localhost:8000/api/tasks`. Ensure headers securely pass `application/json` properties.
-3. If the backend accepts the request (20x status), clear out the form inputs securely and invoke the `onTaskAdded()` prop to refresh the overall table.
-4. Check error handling in case the candidate API from Backend Task 1 drops the request.
+- **File Upload:** Create a drag-and-drop zone using `react-dropzone`.
+- **Parsing:** Use `PapaParse` to convert the CSV rows into a JSON array on the client side.
+- **Visualization:** Use `Recharts` to display at least two charts:
+   1. A Bar Chart showing a count of categories (e.g., leads by status).
+   2. A Line Chart showing a trend over time (e.g., revenue/date).
+- **Data Table:** Display the raw data in a searchable/sortable table using `@tanstack/react-table`.
+
+**Technical Challenge:** Handle "dirty" data. If a CSV row is missing a value or structurally broken, ensure the dashboard drops the row safely without crashing the React render phase.
+
+---
+
+## Task 2: The "Pixel-Perfect" UI Fix
+
+Located in `src/app/landing/page.tsx`.
+
+**Goal:** Take the "broken" and "ugly" clone of a high-end SaaS landing page layout and fix the CSS/Layout using Tailwind CSS.
+
+**Requirements:**
+- **Layout Correction:** Fix a broken Flexbox/Grid layout where elements severely overlap on smaller screens. 
+- **Theme Implementation:** Implement a "Dark/Light Mode" toggle using `next-themes` that changes the entire UI color palette.
+- **Component Refactoring:** Convert the messy, hardcoded navigation bar into a clean, mapped component that iterates over a JSON object for menu items.
+- **Animations:** Add subtle entrance animations (e.g., fade-in or slide-up) using `framer-motion` to give the clone a premium feel.
+
+**Technical Challenge:** Responsive Design. The UI must look perfect on a 1920px monitor and a 375px phone without any horizontal scrolling or overlapping elements.

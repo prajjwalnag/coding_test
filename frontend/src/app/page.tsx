@@ -1,97 +1,32 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import TaskForm from "@/components/TaskForm";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  created_at: string;
-}
+import Link from "next/link";
 
 export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [error, setError] = useState("");
-
-  const fetchTasks = async () => {
-    try {
-      // Trying to fetch from the local FastAPI backend
-      const res = await fetch("http://localhost:8000/api/tasks");
-      if (!res.ok) throw new Error("Failed to fetch tasks. Is the backend running?");
-      const data = await res.json();
-      setTasks(data);
-      setError("");
-    } catch (err) {
-      console.error(err);
-      setError("Unable to connect to the backend API.");
-    }
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-8 font-sans selection:bg-emerald-500/30">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 text-transparent bg-clip-text">
-            Task Board Challenge
-          </h1>
-          <p className="text-slate-400">
-            A full-stack coding challenge assessing Next.js, FastAPI, and Selenium skills.
-          </p>
-        </header>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-8">
+      <div className="max-w-2xl w-full">
+        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 mb-6 text-center">
+          Frontend Challenge Hub
+        </h1>
+        <p className="text-slate-400 text-center mb-12 text-lg">
+          Select a task below to begin the assessment.
+        </p>
 
-        <TaskForm onTaskAdded={fetchTasks} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Link href="/dashboard" className="group relative block bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-8 rounded-2xl transition-all hover:shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)]">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full group-hover:bg-indigo-500/20 transition-all"></div>
+            <h2 className="text-2xl font-bold text-slate-200 mb-3 group-hover:text-indigo-400 transition-colors">Task 1: CSV Dashboard</h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Parse dirty CSV data in the browser and beautifully visualize it using Recharts, PapaParse, and TanStack Table.
+            </p>
+          </Link>
 
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-4 rounded-xl mb-8">
-            <p className="font-semibold">⚠️ Connection Error</p>
-            <p className="text-sm">{error}</p>
-          </div>
-        )}
-
-        <div className="bg-slate-900 border border-slate-700/50 rounded-2xl shadow-xl overflow-hidden backdrop-blur-md">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-800/80 text-slate-300 text-sm uppercase tracking-wider">
-                <th className="p-4 border-b border-slate-700/50 font-medium">ID</th>
-                <th className="p-4 border-b border-slate-700/50 font-medium">Title</th>
-                <th className="p-4 border-b border-slate-700/50 font-medium">Status</th>
-                <th className="p-4 border-b border-slate-700/50 font-medium">Created At</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/50">
-              {tasks.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="p-8 text-center text-slate-500 italic">
-                    No tasks found. Try adding one!
-                  </td>
-                </tr>
-              ) : (
-                tasks.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-800/30 transition-colors group">
-                    <td className="p-4 text-slate-400 font-mono text-sm">#{t.id}</td>
-                    <td className="p-4">
-                      <p className="font-medium text-slate-200 group-hover:text-emerald-400 transition-colors">{t.title}</p>
-                      <p className="text-sm text-slate-500 mt-1">{t.description}</p>
-                    </td>
-                    <td className="p-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-400/10 text-cyan-400 border border-cyan-400/20">
-                        {t.status}
-                      </span>
-                    </td>
-                    <td className="p-4 text-sm text-slate-400 font-mono">
-                      {new Date(t.created_at).toLocaleString()}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+          <Link href="/landing" className="group relative block bg-slate-900 border border-slate-800 hover:border-cyan-500/50 p-8 rounded-2xl transition-all hover:shadow-[0_0_30px_-5px_rgba(34,211,238,0.3)]">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full group-hover:bg-cyan-500/20 transition-all"></div>
+            <h2 className="text-2xl font-bold text-slate-200 mb-3 group-hover:text-cyan-400 transition-colors">Task 2: Pixel Perfect Fix</h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Take a heavily broken SaaS landing page layout and meticulously fix the CSS, adding Dark Mode and Framer Motion.
+            </p>
+          </Link>
         </div>
       </div>
     </div>

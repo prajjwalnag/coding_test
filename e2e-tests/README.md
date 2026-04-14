@@ -1,6 +1,6 @@
-# E2E Test Challenge (Selenium)
+# Web Automation Challenge (Selenium)
 
-Welcome to the automated testing portion of the assessment. We use Selenium WebDriver in Python to verify the final end-to-end integration of our Frontend and Backend.
+Welcome to the headless automation portion of the assessment. We use Selenium WebDriver in Python to verify skills related to session management, DOM manipulation, scraping, and authentication bypassing.
 
 ## Setup Instructions
 
@@ -9,22 +9,27 @@ Welcome to the automated testing portion of the assessment. We use Selenium WebD
    ```bash
    pip install -r requirements.txt
    ```
-3. **Important Check**: Ensure BOTH the Next.js Frontend (`localhost:3000`) and the FastAPI Backend (`localhost:8000`) are running locally before attempting to run tests.
-4. Execute the test suite using pytest:
-   ```bash
-   pytest test_task_flow.py -v
-   ```
+3. Open `facebook_automation.py` to begin.
 
-## Your Task
+---
 
-Open `test_task_flow.py` and locate the `test_add_new_task` function.
+## Task 1: Extracting Session Cookies (`c_user` & `xs`)
 
-Currently, the test navigates to the React app but immediately fails.
+**Goal**: Automate the Facebook login process and programmatically extract the `c_user` and `xs` cookies, which represent the active session.
 
-**Requirements:**
-1. Using Selenium WebDriver, locate the Task Title input field and inject a dummy string.
-2. Locate the Description textarea and enter a dummy description.
-3. Trigger the submit button action.
-4. Implement an assertion (`assert`) to ensure the newly added dummy task appears dynamically in the UI's table underneath the form.
+**Requirements**:
+1. Navigate to Facebook and use Selenium to input a test email and password.
+2. Use `driver.get_cookies()` to retrieve the full list of session cookies after a successful login redirect.
+3. Write logic to loop through the cookies and securely extract the specific values for `c_user` and `xs`.
 
-*(Note: Depending on system speeds, you may need to implement `WebDriverWait` to give Next.js time to fetch the updated table from the background!).*
+---
+
+## Task 2: Persistent Login & Wall Data Fetching
+
+**Goal**: Use the cookies extracted in Task 1 to "inject" a session into a newly cleared browser instance and scrape post data from a wall.
+
+**Requirements**:
+1. Without typing in a username/password, use `driver.add_cookie()` to inject the Session Secret into the WebDriver.
+2. Refresh the page to confirm you are successfully logged in and bypassing the login screen.
+3. Navigate to a feed and scrape the text content of the first 3 posts.
+4. **Automation Challenge:** Implement a "Scroll" function via Javascript in Selenium to ensure at least 3 posts have lazy-loaded before attempting to scrape the DOM elements.
