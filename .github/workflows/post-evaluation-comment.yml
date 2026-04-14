@@ -33,16 +33,19 @@ jobs:
 
       - name: Post score comment to PR
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
         with:
           script: |
             const fs = require('fs');
-            const prNumber = parseInt('${{ steps.pr.outputs.number }}', 10);
+            const prNumber = parseInt(process.env.PR_NUMBER, 10);
 
             let body;
             try {
               body = fs.readFileSync('artifact/evaluation_comment.md', 'utf8');
             } catch (e) {
-              body = '⚠️ Evaluation script did not produce a report. Check the [workflow logs](${{ github.event.workflow_run.html_url }}) for details.';
+              body = `⚠️ Evaluation script did not produce a report. Check the [workflow logs](${process.env.WORKFLOW_URL}) for details.`;
             }
 
             // Find and delete any previous bot comment so the PR doesn't accumulate stale reports

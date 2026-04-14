@@ -384,6 +384,11 @@ def check_selenium() -> list:
 
 # ─── Report builder ────────────────────────────────────────────────────────────
 
+def _pct(earned: int, max_pts: int) -> int:
+    """Return integer percentage, 0 if max_pts is 0."""
+    return int(earned / max_pts * 100) if max_pts else 0
+
+
 def _e(passed: bool) -> str:
     return "✅" if passed else "❌"
 
@@ -418,7 +423,7 @@ def build_report(backend, live, frontend, selenium) -> tuple[dict, str]:
         "total_max": grand_m,
     }
 
-    pct   = int(grand_e / grand_m * 100) if grand_m else 0
+    pct   = _pct(grand_e, grand_m)
     bar   = "█" * int(pct / 5) + "░" * (20 - int(pct / 5))
     fe_scored = [c for c in frontend if c["max"] > 0]
     fe_info   = [c for c in frontend if c["max"] == 0]
@@ -512,7 +517,7 @@ def main():
     COMMENT_FILE.write_text(comment)
 
     e, m = results["total_earned"], results["total_max"]
-    print(f"\n✅ Evaluation complete: {e}/{m} ({int(e/m*100) if m else 0}%)")
+    print(f"\n✅ Evaluation complete: {e}/{m} ({_pct(e, m)}%)")
     print(f"   Results → {RESULTS_FILE}")
     print(f"   Comment → {COMMENT_FILE}")
 
