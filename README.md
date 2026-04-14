@@ -1,19 +1,16 @@
 # Full-Stack Coding Challenge
 
-Welcome to the Full-Stack Coding Challenge! This assessment is designed to test your proficiency in **Next.js**, **FastAPI**, and **Selenium** end-to-end testing.
+Welcome to the Full-Stack Coding Challenge! This assessment evaluates your proficiency in isolated **Next.js**, **FastAPI**, and **Selenium** web automation tasks.
 
-## Scenario
+## How to Take This Test
 
-You are provided with a minimal "Task Board" application. The frontend is built with Next.js (React) and styled with Tailwind CSS. The backend is a Python FastAPI server.
+To ensure a smooth evaluation, please follow these exact steps:
 
-Currently, the application displays a list of tasks, but the functionality to **add a new task** is broken, and the automated E2E tests are incomplete.
-
-Your goal is to fix the application and complete the test suite.
-
-## Prerequisites
-- Node.js (v18+)
-- Python (v3.9+)
-- Chrome Browser & ChromeDriver (for Selenium)
+1. **Fork the Repository:** Click the "Fork" button in the top right corner of this GitHub page to create a personal copy on your own GitHub account.
+2. **Clone Locally:** Clone *your* forked repository to your local machine (`git clone https://github.com/YOUR_USERNAME/coding_test.git`).
+3. **Complete the Modules:** Iterate through the `backend`, `frontend`, and `e2e-tests` directories below. You may complete them in any order you choose.
+4. **Commit Your Code:** Make clear, descriptive commits as you finish the various checkpoints.
+5. **Submit Your Work:** Once you are fully finished, push your branches to your GitHub fork and open a **Pull Request (PR)** against this original repository. Our engineering team will review the code natively in the PR.
 
 ---
 
@@ -54,6 +51,4 @@ The automation challenge tests your ability to bypass authentications and execut
 
 ---
 
-## Submission
-
-Fork this repository, complete the tasks, and submit a pull request or share the repository link when finished! Good luck!
+**Good Luck!** We look forward to reviewing your Pull Request.
