@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 fork_report.json
+evaluation_results.json
+evaluation_comment.md
