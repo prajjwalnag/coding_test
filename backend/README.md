@@ -22,11 +22,14 @@ Welcome to the backend portion of the assessment. This directory contains a mini
 
 ## Your Task
 
-Open `main.py` and navigate to the `create_task` function.
+Open `main.py` and navigate to the `get_tasks` and `create_task` functions.
 
-Currently, the endpoint `POST /api/tasks` is stubbed out and returns a `501 Not Implemented` exception.
+Currently, **both** endpoints (`GET /api/tasks` and `POST /api/tasks`) are stubbed out and return a `501 Not Implemented` exception.
 
-**Requirements:**
+**Requirements for GET:**
+1. Return the current list of tasks from the in-memory `tasks_db`.
+
+**Requirements for POST:**
 1. Parse the incoming request payload (`title` and `description`).
 2. Generate a unique integer `id` for the new task.
 3. Record the current time in ISO format for `created_at`.

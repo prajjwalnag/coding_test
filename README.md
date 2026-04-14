@@ -19,13 +19,15 @@ Your goal is to fix the application and complete the test suite.
 
 ## Task 1: The Backend (FastAPI)
 
-The frontend needs to send a new task to the backend, but the API endpoint is missing.
+The frontend needs to retrieve existing tasks and send new tasks to the backend, but the API endpoints are currently missing or broken.
 
 1. Navigate to the `backend/` directory.
 2. Install dependencies: `pip install -r requirements.txt`
 3. Open `backend/main.py`.
 4. Run the server: `uvicorn main:app --reload`
-5. **Your Job**: Implement the `POST /api/tasks` endpoint using FastAPI. It should receive a task title and description, assign an ID and timestamp, append it to the `tasks_db`, and return the created task.
+5. **Your Job**: 
+   - **GET**: Implement the `GET /api/tasks` endpoint to return the current list of tasks from the local `tasks_db`.
+   - **POST**: Implement the `POST /api/tasks` endpoint. It should receive a task title and description, assign an ID and timestamp, append it to the `tasks_db`, and return the created task.
 
 ## Task 2: The Frontend (Next.js)
 

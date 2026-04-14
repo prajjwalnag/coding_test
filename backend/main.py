@@ -33,8 +33,13 @@ tasks_db.append(Task(id=0, title="Initial Demo Task", description="This is to sh
 
 @app.get("/api/tasks", response_model=List[Task])
 async def get_tasks():
-    """Returns all current tasks."""
-    return tasks_db
+    """
+    TODO FOR CANDIDATE:
+    Implement this endpoint to return the current list of tasks from `tasks_db`.
+    """
+    # ----- YOUR CODE HERE -----
+    raise HTTPException(status_code=501, detail="GET /api/tasks not implemented yet. Implement me!")
+    # --------------------------
 
 @app.post("/api/tasks", response_model=Task)
 async def create_task(task_in: TaskBase):
