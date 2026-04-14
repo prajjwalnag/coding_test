@@ -61,12 +61,21 @@ def list_forks(owner, repo, token=None):
 
 
 def list_open_prs(owner, repo, token=None):
-    """Return open pull requests targeting the upstream repo."""
-    data = gh_api(
-        f"/repos/{owner}/{repo}/pulls?state=open&per_page=100",
-        token,
-    )
-    return data or []
+    """Return open pull requests targeting the upstream repo, handling pagination."""
+    prs = []
+    page = 1
+    while True:
+        data = gh_api(
+            f"/repos/{owner}/{repo}/pulls?state=open&per_page=100&page={page}",
+            token,
+        )
+        if not data:
+            break
+        prs.extend(data)
+        if len(data) < 100:
+            break
+        page += 1
+    return prs
 
 
 def compare_commits(owner, repo, base, head, token=None):
@@ -92,6 +101,14 @@ def check_forks(owner, repo, token=None):
     open_prs = list_open_prs(owner, repo, token)
     pr_authors = {pr["head"]["repo"]["full_name"] for pr in open_prs if pr.get("head", {}).get("repo")}
 
+    # Pre-fetch comparison data for all forks (single pass to avoid duplicate API calls)
+    comparisons = {}
+    for fork in forks:
+        fork_owner = fork["owner"]["login"]
+        comparisons[fork_owner] = compare_commits(
+            owner, repo, f"{owner}:main", f"{fork_owner}:main", token
+        )
+
     print(f"Total forks: {len(forks)}\n")
     print(f"{'#':<4} {'Fork Owner':<25} {'Created':<12} {'Last Push':<12} {'Ahead':<8} {'PR?':<5}")
     print(f"{'-'*4} {'-'*25} {'-'*12} {'-'*12} {'-'*8} {'-'*5}")
@@ -103,13 +120,8 @@ def check_forks(owner, repo, token=None):
         pushed = fork.get("pushed_at", "")[:10]
         has_pr = "Yes" if full_name in pr_authors else "No"
 
-        # Try to determine how many commits the fork is ahead
-        ahead = "N/A"
-        comparison = compare_commits(
-            owner, repo, f"{owner}:main", f"{fork_owner}:main", token
-        )
-        if comparison and "ahead_by" in comparison:
-            ahead = str(comparison["ahead_by"])
+        comparison = comparisons.get(fork_owner)
+        ahead = str(comparison["ahead_by"]) if comparison and "ahead_by" in comparison else "N/A"
 
         print(f"{idx:<4} {fork_owner:<25} {created:<12} {pushed:<12} {ahead:<8} {has_pr:<5}")
 
@@ -117,14 +129,12 @@ def check_forks(owner, repo, token=None):
     print(f"  Report generated at {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
     print(f"{'='*70}\n")
 
-    # Also output as structured JSON for CI consumption
+    # Build structured JSON summary for CI consumption
     summary = []
     for fork in forks:
         fork_owner = fork["owner"]["login"]
         full_name = fork["full_name"]
-        comparison = compare_commits(
-            owner, repo, f"{owner}:main", f"{fork_owner}:main", token
-        )
+        comparison = comparisons.get(fork_owner)
         ahead_by = comparison.get("ahead_by", 0) if comparison else 0
 
         summary.append({
