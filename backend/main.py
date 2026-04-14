@@ -1,53 +1,62 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Form, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List
-from datetime import datetime
+from typing import List, Optional
+import httpx
+from datetime import date
 
-app = FastAPI(title="Task Board API")
+app = FastAPI(title="Backend Coding Challenge")
 
-# Configure CORS for local Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-class TaskBase(BaseModel):
-    title: str
-    description: str
-    status: str = "Todo"
 
-class Task(TaskBase):
-    id: int
-    created_at: str
-
-# In-memory database
-tasks_db: List[Task] = []
-current_id = 1
-
-# Seed some initial data
-tasks_db.append(Task(id=0, title="Initial Demo Task", description="This is to show the grid works.", status="Done", created_at=datetime.now().isoformat()))
-
-@app.get("/api/tasks", response_model=List[Task])
-async def get_tasks():
+@app.get("/api/weather")
+async def get_weather(city: str):
     """
+    Task 1: The Weather Proxy (Intermediate)
+    
     TODO FOR CANDIDATE:
-    Implement this endpoint to return the current list of tasks from `tasks_db`.
+    1. Retrieve the city name from the query parameters.
+    2. Securely append a dummy API key (e.g., "dummy_key_123") and construct the 
+       OpenWeatherMap API URL: https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}
+    3. Use `httpx.AsyncClient()` to safely make an asynchronous GET request to the URL.
+    4. Return the JSON payload back to the client.
+    5. Handle expected errors (e.g., city not found -> 404 Exception).
     """
+    
     # ----- YOUR CODE HERE -----
-    raise HTTPException(status_code=501, detail="GET /api/tasks not implemented yet. Implement me!")
+    raise HTTPException(status_code=501, detail="GET /api/weather not implemented yet. Show us your async httpx skills!")
     # --------------------------
 
-@app.post("/api/tasks", response_model=Task)
-async def create_task(task_in: TaskBase):
-    """
-    TODO FOR CANDIDATE:
-    Implement this endpoint to receive a new task, assign it a unique ID, 
-    record the current creation time, store it in `tasks_db`, and return the created task.
-    """
+
+@app.post("/api/enrollment")
+async def enroll_child(
     # ----- YOUR CODE HERE -----
-    raise HTTPException(status_code=501, detail="POST /api/tasks not implemented yet. Implement me!")
+    # Define your Form(...) dependencies here to capture the incoming multiparts!
+    # Hint: You need to capture string fields, a date field, and a boolean!
+    # --------------------------
+):
+    """
+    Task 2: The Childcare Enrollment Form Form (Intermediate/Advanced)
+    
+    TODO FOR CANDIDATE:
+    1. The client is submitting a complex HTML Form Data payload (NOT JSON).
+    2. You need to map the incoming form correctly using FastAPI's `Form(...)`.
+    3. Required Fields to parse:
+        - `parent_name` (string)
+        - `child_name` (string)
+        - `date_of_birth` (date type)
+        - `enrolled_programs` (A list of strings, since it's a multi-select checkbox)
+        - `agreed_to_terms` (boolean)
+    4. Compile these parsed fields into a python dictionary and return them as the JSON response 
+       to prove they were successfully extracted.
+    """
+    
+    # ----- YOUR CODE HERE -----
+    raise HTTPException(status_code=501, detail="POST /api/enrollment not implemented yet. Ensure you use python-multipart Form extraction!")
     # --------------------------

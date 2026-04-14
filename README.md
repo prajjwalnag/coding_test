@@ -19,15 +19,15 @@ Your goal is to fix the application and complete the test suite.
 
 ## Task 1: The Backend (FastAPI)
 
-The frontend needs to retrieve existing tasks and send new tasks to the backend, but the API endpoints are currently missing or broken.
+The backend is completely decoupled into two specific skill tests: a Weather Async Proxy and a multi-part Childcare Enrollment Form parser.
 
 1. Navigate to the `backend/` directory.
 2. Install dependencies: `pip install -r requirements.txt`
 3. Open `backend/main.py`.
 4. Run the server: `uvicorn main:app --reload`
 5. **Your Job**: 
-   - **GET**: Implement the `GET /api/tasks` endpoint to return the current list of tasks from the local `tasks_db`.
-   - **POST**: Implement the `POST /api/tasks` endpoint. It should receive a task title and description, assign an ID and timestamp, append it to the `tasks_db`, and return the created task.
+   - **GET `/api/weather`**: Implement an async httpx proxy to OpenWeatherMap.
+   - **POST `/api/enrollment`**: Use FastAPI `Form(...)` to parse a complex childcare enrollment form containing lists, dates, and booleans.
 
 ## Task 2: The Frontend (Next.js)
 
